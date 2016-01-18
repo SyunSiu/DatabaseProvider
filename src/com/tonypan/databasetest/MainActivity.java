@@ -14,7 +14,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 
 	private MyDatabaseHelper dbHelper;
 	private Button createDB, addData, updateData, deleteData, queryData, replaceData;
-	//≤‚ ‘slkjdslk
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
