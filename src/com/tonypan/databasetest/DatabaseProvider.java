@@ -63,8 +63,24 @@ public class DatabaseProvider extends ContentProvider{
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
+		String returnType = null;
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+			returnType = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".book";
+			break;
+		case BOOK_ITEM:
+			returnType = "vnd.android.cursor.item/vnd." + AUTHORITY + ".book";
+			break;
+		case CATEGORY_DIR:
+			returnType = "vnd.android.cursor.dir/vnd." + AUTHORITY + ".category";
+			break;
+		case CATEGORY_ITEM:
+			returnType = "vnd.android.cursor.item/vnd." + AUTHORITY + ".category";
+			break;
+		default:
+			break;
+		}
+		return returnType;
 	}
 
 	@Override
@@ -93,8 +109,28 @@ public class DatabaseProvider extends ContentProvider{
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		//É¾³ýÊý¾Ý
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int deleteRows = 0;
+		switch (uriMatcher.match(uri)) {
+		case BOOK_DIR:
+			deleteRows = db.delete("Book", selection, selectionArgs);
+			break;
+		case BOOK_ITEM:
+			String bookId = uri.getPathSegments().get(1);
+			deleteRows = db.delete("Book", "id = ?", new String[]{bookId});
+			break;
+		case CATEGORY_DIR:
+			deleteRows = db.delete("Book", selection, selectionArgs);
+			break;
+		case CATEGORY_ITEM:
+			String categoryId = uri.getPathSegments().get(1);
+			deleteRows = db.delete("Category", "id = ?", new String[]{categoryId});
+			break;
+		default:
+			break;
+		}
+		return deleteRows;
 	}
 
 	@Override
